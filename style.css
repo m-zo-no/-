@@ -1,0 +1,567 @@
+:root {
+  --background: #fff7c7;
+  --light-yellow: #fffce7;
+  --card-yellow: #fffad7;
+
+  --ink: #4e4230;
+  --sub-ink: #7d6d4f;
+  --green: #26974e;
+
+  --finish-background: #f7f1e2;
+  --finish-ink: #41362e;
+  --finish-sub-ink: #89816f;
+  --finish-card: #fffffc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--ink);
+
+  font-family:
+    "Hiragino Maru Gothic ProN",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
+
+  -webkit-text-size-adjust: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 4px solid #388cce;
+  outline-offset: 5px;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+#app {
+  width: 100%;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  padding:
+    max(8px, env(safe-area-inset-top))
+    max(8px, env(safe-area-inset-right))
+    max(8px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-left));
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen {
+  width: min(1200px, 100%);
+
+  min-height: min(720px, calc(100dvh - 24px));
+
+  border: 3px solid var(--ink);
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.title-screen,
+.finish-screen,
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  padding: 30px 20px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+.celebration {
+  font-family: "Apple Color Emoji", sans-serif;
+  font-size: clamp(42px, 6vw, 70px);
+  line-height: 1.3;
+  margin-bottom: 30px;
+}
+
+.title-screen h1,
+.finish-screen h1 {
+  font-size: clamp(32px, 6vw, 70px);
+  font-weight: 500;
+  line-height: 1.35;
+  margin-bottom: 25px;
+}
+
+.title-description {
+  font-size: clamp(17px, 2.4vw, 26px);
+  color: var(--sub-ink);
+}
+
+.large-button {
+  width: min(440px, 88%);
+  min-height: 115px;
+
+  margin: 28px 0;
+
+  border: 3px solid var(--ink);
+  border-radius: 38px;
+  background: var(--light-yellow);
+
+  font-size: clamp(28px, 4vw, 49px);
+}
+
+.large-button:active,
+.small-button:active,
+.report-button:active {
+  transform: translateY(2px);
+}
+
+.small-text {
+  color: var(--sub-ink);
+  font-size: clamp(13px, 1.7vw, 18px);
+  margin-bottom: 12px;
+}
+
+.camera-note {
+  margin-top: 18px;
+  margin-bottom: 0;
+
+  color: var(--sub-ink);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.error-message {
+  width: min(760px, 95%);
+  margin-top: 20px;
+  margin-bottom: 0;
+
+  padding: 14px 18px;
+
+  border: 1px solid #c76868;
+  border-radius: 12px;
+  background: #fff0ee;
+
+  color: #9b2929;
+  font-size: 15px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+/* 準備画面 */
+
+.loading-screen h2 {
+  font-size: clamp(24px, 3.5vw, 42px);
+  line-height: 1.6;
+}
+
+#loading-message {
+  font-size: 20px;
+  color: var(--sub-ink);
+}
+
+.spinner {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 28px;
+
+  border: 6px solid #e9dfac;
+  border-top-color: var(--green);
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ゲーム画面 */
+
+.game-screen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: min(720px, calc(100dvh - 24px));
+}
+
+.instruction-panel {
+  min-width: 0;
+  min-height: 0;
+
+  padding: 24px 28px 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border-right: 4px solid var(--ink);
+}
+
+.score {
+  margin-bottom: 20px;
+  font-size: clamp(17px, 2vw, 24px);
+  color: var(--sub-ink);
+}
+
+.question-card {
+  width: 100%;
+  min-height: 210px;
+
+  padding: 22px 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  border: 3px solid var(--ink);
+  border-radius: 38px;
+  background: var(--card-yellow);
+}
+
+.question-line {
+  font-size: clamp(30px, 4.5vw, 60px);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+ruby {
+  ruby-align: center;
+}
+
+rt {
+  font-size: 0.38em;
+  font-weight: 400;
+}
+
+.hints {
+  width: 100%;
+  margin-top: 28px;
+  text-align: center;
+}
+
+.hint-line {
+  margin: 8px 0;
+  font-size: clamp(19px, 2.5vw, 31px);
+  line-height: 1.65;
+}
+
+.panel-bottom {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 14px;
+
+  text-align: center;
+}
+
+.status {
+  min-height: 1.5em;
+  margin-bottom: 12px;
+
+  font-size: clamp(15px, 1.8vw, 22px);
+  color: var(--sub-ink);
+}
+
+.progress-track {
+  width: 82%;
+  height: 14px;
+  margin: 0 auto 16px;
+
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e8deaf;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+
+  border-radius: inherit;
+  background: var(--green);
+}
+
+.small-button {
+  min-height: 44px;
+  padding: 8px 24px;
+
+  border: 2px solid var(--ink);
+  border-radius: 15px;
+
+  background: var(--light-yellow);
+  font-size: 18px;
+}
+
+.keyboard-note {
+  margin-top: 8px;
+  margin-bottom: 0;
+
+  font-size: 13px;
+  color: var(--sub-ink);
+}
+
+.correct-display {
+  margin-top: 25px;
+  color: var(--green);
+  text-align: center;
+}
+
+.correct-circle {
+  width: 230px;
+  height: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 6px solid var(--green);
+  border-radius: 50%;
+
+  font-size: 60px;
+  animation: correct-pulse 1.6s ease-in-out infinite;
+}
+
+.correct-display p {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-size: 24px;
+}
+
+@keyframes correct-pulse {
+  50% {
+    border-color: #b5cf88;
+  }
+}
+
+.camera-panel {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+  background: #e9e2c8;
+}
+
+#camera-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.end-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  min-height: 44px;
+  padding: 8px 16px;
+
+  border: 2px solid #fff;
+  border-radius: 14px;
+
+  background: rgb(40 40 40 / 65%);
+  color: #fff;
+  font-size: 16px;
+}
+
+/* 完了画面 */
+
+.finish-screen {
+  background: var(--finish-background);
+  color: var(--finish-ink);
+  border-color: var(--finish-ink);
+}
+
+.finish-screen .celebration {
+  margin-bottom: 40px;
+}
+
+.finish-screen h1 {
+  margin-bottom: 0;
+}
+
+/* 黄色い帯は作らず、背景色の余白だけにする */
+.report-button {
+  width: min(650px, 92%);
+  min-height: 108px;
+
+  margin-top: 95px;
+  margin-bottom: 18px;
+  padding: 20px 18px;
+
+  border: 3px solid #26221e;
+  border-radius: 28px;
+  background: var(--finish-card);
+
+  color: #26221e;
+  font-size: clamp(17px, 2.5vw, 30px);
+  line-height: 1.7;
+}
+
+.finish-screen .small-text {
+  color: var(--finish-sub-ink);
+}
+
+/* カメラ映像の元となるvideoは画面外に配置する */
+#camera-video {
+  position: fixed;
+  left: -10px;
+  top: -10px;
+
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+/* iPad縦向きなど */
+@media (max-width: 800px) and (orientation: portrait) {
+  .game-screen {
+    height: auto;
+    min-height: calc(100dvh - 24px);
+    grid-template-columns: 1fr;
+  }
+
+  .instruction-panel {
+    border-right: none;
+    border-bottom: 4px solid var(--ink);
+    padding: 18px 22px;
+  }
+
+  .score {
+    margin-bottom: 12px;
+  }
+
+  .question-card {
+    min-height: 140px;
+    padding: 12px;
+    gap: 2px;
+  }
+
+  .question-line {
+    font-size: 34px;
+  }
+
+  .hints {
+    margin-top: 12px;
+  }
+
+  .hint-line {
+    margin: 3px 0;
+    font-size: 21px;
+  }
+
+  .camera-panel {
+    height: 42dvh;
+    min-height: 280px;
+  }
+
+  .correct-display {
+    margin-top: 16px;
+  }
+
+  .correct-circle {
+    width: 180px;
+    height: 110px;
+    font-size: 46px;
+  }
+
+  .report-button {
+    margin-top: 65px;
+  }
+}
+
+/* 高さが小さい横向き画面 */
+@media (max-height: 650px) and (orientation: landscape) {
+  .instruction-panel {
+    padding: 12px 20px;
+  }
+
+  .score {
+    margin-bottom: 10px;
+  }
+
+  .question-card {
+    min-height: 140px;
+    padding: 10px;
+    gap: 4px;
+  }
+
+  .question-line {
+    font-size: 36px;
+  }
+
+  .hints {
+    margin-top: 12px;
+  }
+
+  .hint-line {
+    margin: 3px 0;
+    font-size: 21px;
+  }
+
+  .correct-display {
+    margin-top: 14px;
+  }
+
+  .correct-circle {
+    width: 170px;
+    height: 100px;
+    font-size: 44px;
+  }
+
+  .correct-display p {
+    margin-top: 8px;
+    font-size: 20px;
+  }
+
+  .celebration,
+  .finish-screen .celebration {
+    margin-bottom: 16px;
+  }
+
+  .report-button {
+    min-height: 80px;
+    margin-top: 45px;
+  }
+
+  .large-button {
+    min-height: 80px;
+    margin: 16px 0;
+  }
+
+  .camera-note {
+    margin-top: 8px;
+  }
+}

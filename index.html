@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#fff7c7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <title>ポーズでクリア</title>
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <main id="app">
+    <!-- 最初のスタート画面 -->
+    <section
+      id="title-screen"
+      class="screen title-screen"
+      aria-labelledby="title-heading"
+    >
+      <div class="celebration" aria-hidden="true">🙌</div>
+
+      <h1 id="title-heading">ポーズでクリア</h1>
+
+      <p class="title-description">
+        カメラのまえで ポーズをしてね
+      </p>
+
+      <button id="start-button" class="large-button" type="button">
+        スタート！
+      </button>
+
+      <p class="small-text">3もん できたら クリア！</p>
+      <p class="small-text">キーボード：Dキーでスタート</p>
+
+      <p class="camera-note">
+        はじめは、かおと りょうかたを うつして<br>
+        すこし ストップしてね
+      </p>
+
+      <p
+        id="title-error"
+        class="error-message"
+        role="alert"
+        hidden
+      ></p>
+    </section>
+
+    <!-- モデルとカメラの準備画面 -->
+    <section
+      id="loading-screen"
+      class="screen loading-screen"
+      aria-live="polite"
+      hidden
+    >
+      <div class="spinner" aria-hidden="true"></div>
+
+      <h2>カメラをじゅんびしています</h2>
+
+      <p id="loading-message">プログラムを読み込んでいます</p>
+
+      <p class="small-text">
+        はじめてのときは、すこし じかんがかかります
+      </p>
+    </section>
+
+    <!-- ゲーム画面 -->
+    <section id="game-screen" class="screen game-screen" hidden>
+      <div class="instruction-panel">
+        <p id="score" class="score">できた！ 0 / 3</p>
+
+        <div id="question-card" class="question-card"></div>
+
+        <div id="hints" class="hints"></div>
+
+        <div id="correct-display" class="correct-display" hidden>
+          <div class="correct-circle">
+            <ruby>正解<rt>せいかい</rt></ruby>
+          </div>
+
+          <p>できたね！</p>
+        </div>
+
+        <div class="panel-bottom">
+          <p id="status" class="status" aria-live="polite">
+            はじめの いちで ストップ
+          </p>
+
+          <div
+            id="progress-track"
+            class="progress-track"
+            role="progressbar"
+            aria-label="ポーズを保った時間"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+
+          <button id="skip-button" class="small-button" type="button">
+            つぎのおだい
+          </button>
+
+          <p class="keyboard-note">Dキー：つぎのおだい</p>
+        </div>
+      </div>
+
+      <div class="camera-panel">
+        <canvas
+          id="camera-canvas"
+          aria-label="鏡のように表示するカメラ映像"
+        ></canvas>
+
+        <button id="end-button" class="end-button" type="button">
+          おわる
+        </button>
+      </div>
+    </section>
+
+    <!-- 3問正解後の完了画面 -->
+    <section
+      id="finish-screen"
+      class="screen finish-screen"
+      aria-labelledby="finish-heading"
+      hidden
+    >
+      <div class="celebration" aria-hidden="true">🙌</div>
+
+      <h1 id="finish-heading">よくできました！</h1>
+
+      <!-- タイトルとボタンの間に黄色い帯は表示しない -->
+      <button
+        id="report-button"
+        class="report-button"
+        type="button"
+      >
+        ぼたんをおして　せんせいにほうこく
+      </button>
+
+      <p class="small-text">3もん できたら クリア！</p>
+
+      <p class="small-text">
+        ボタン / Dキーでスタートがめんへ
+      </p>
+    </section>
+  </main>
+
+  <!-- iPadではplaysinlineが重要 -->
+  <video
+    id="camera-video"
+    autoplay
+    muted
+    playsinline
+    aria-hidden="true"
+  ></video>
+
+  <!--
+    app.jsを読み込み、成功・失敗を画面に表示する。
+    別のscriptタグでapp.jsを重複して読み込まないこと。
+  -->
+  <script>
+    (() => {
+      const errorBox = document.getElementById("title-error");
+
+      function showMessage(message) {
+        errorBox.hidden = false;
+        errorBox.textContent = message;
+      }
+
+      showMessage("確認中：app.jsを読み込んでいます");
+
+      import("./app.js?v=3")
+        .then(() => {
+          showMessage(
+            "確認：app.jsの読み込みが完了しました。\n" +
+            "スタートボタンを押してください。"
+          );
+        })
+        .catch((error) => {
+          console.error("app.jsの読み込み・実行に失敗しました。", error);
+
+          showMessage(
+            "app.jsを実行できませんでした。\n\n" +
+            (error.stack || error.message || String(error)) +
+            "\n\nページの開き方：" + location.protocol
+          );
+        });
+    })();
+  </script>
+</body>
+</html>
